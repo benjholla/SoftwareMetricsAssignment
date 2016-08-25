@@ -1,6 +1,6 @@
 package metrics;
 
-import com.ensoftcorp.atlas.core.db.graph.GraphElement;
+import com.ensoftcorp.atlas.core.db.graph.Node;
 import com.ensoftcorp.atlas.core.query.Q;
 import com.ensoftcorp.atlas.core.xcsg.XCSG;
 import com.ensoftcorp.atlas.java.core.script.Common;
@@ -107,7 +107,7 @@ public class Metrics {
 	 * @param pkg A single package node
 	 * @return
 	 */
-	public static Q getPackageMethods(GraphElement pkg){
+	public static Q getPackageMethods(Node pkg){
 		// TODO: Implement
 		Q packages = Common.toQ(pkg);
 		// Step 1) Create a subgraph of CONTAINS edges from the universe
@@ -120,7 +120,7 @@ public class Metrics {
 	 * @param pkg A single package node
 	 * @return
 	 */
-	public static Q getPackageTypes(GraphElement pkg){
+	public static Q getPackageTypes(Node pkg){
 		Q packages = Common.toQ(pkg);
 		// Step 1) Create a subgraph of CONTAINS edges from the universe to find the declared classes of the package
 		Q containsEdges = Common.universe().edgesTaggedWithAny(XCSG.Contains).retainEdges();
@@ -132,7 +132,7 @@ public class Metrics {
 	 * Calculates the ratio of the number of abstract classes (and interfaces) in the package to the total number of types in the package
 	 * @param pkg A single package node
 	 */
-	public static double getAbstractness(GraphElement pkg) throws ArithmeticException {
+	public static double getAbstractness(Node pkg) throws ArithmeticException {
 		// Step 1) Get the types declared under the package
 		Q packageTypes = getPackageTypes(pkg);
 		// Step 2) From the discovered class nodes select the abstract classes
@@ -147,7 +147,7 @@ public class Metrics {
 	 * @param pkg A single package node
 	 * @return
 	 */
-	public static Q getDependentPackages(GraphElement pkg){
+	public static Q getDependentPackages(Node pkg){
 		// TODO: Implement
 		// Step 1) Get the methods declared under the package
 		// Step 2) Create a subgraph of CALL edges from the universe
@@ -162,7 +162,7 @@ public class Metrics {
 	 * @param pkg A single package node
 	 * @return
 	 */
-	public static Q getPackageDependencies(GraphElement pkg){
+	public static Q getPackageDependencies(Node pkg){
 		// TODO: Implement
 		// Step 1) Get the methods declared under the package
 		// Step 2) Create a subgraph of CALL edges from the universe
@@ -177,7 +177,7 @@ public class Metrics {
 	 * @param pkg A single package node
 	 * @return
 	 */
-	public static Q getAfferentCouplings(GraphElement pkg) {
+	public static Q getAfferentCouplings(Node pkg) {
 		// return getDependentPackages(pkg); // includes packages in Java APIs
 		return getDependentPackages(pkg).intersection(SetDefinitions.app());
 	}
@@ -188,7 +188,7 @@ public class Metrics {
 	 * @param pkg A single package node
 	 * @return
 	 */
-	public static Q getEfferentCouplings(GraphElement pkg) {
+	public static Q getEfferentCouplings(Node pkg) {
 //		return getPackageDependencies(pkg)); // includes packages in Java APIs
 		return getPackageDependencies(pkg).intersection(SetDefinitions.app());
 	}
@@ -198,7 +198,7 @@ public class Metrics {
 	 * @param pkg A single package node
 	 * @return
 	 */
-	public static double getInstability(GraphElement pkg) {
+	public static double getInstability(Node pkg) {
 		double ce = new Double(countNodes(getEfferentCouplings(pkg)));
 		double ca = new Double(countNodes(getAfferentCouplings(pkg)));
 		return ce / (ca + ce);

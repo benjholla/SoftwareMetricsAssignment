@@ -13,10 +13,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
 
-import com.ensoftcorp.atlas.core.db.graph.GraphElement;
+import com.ensoftcorp.atlas.core.db.graph.Node;
 import com.ensoftcorp.atlas.core.db.set.AtlasSet;
-import com.ensoftcorp.atlas.core.query.Attr.Node;
 import com.ensoftcorp.atlas.core.query.Q;
+import com.ensoftcorp.atlas.core.xcsg.XCSG;
 import com.ensoftcorp.atlas.ui.selection.IAtlasSelectionListener;
 import com.ensoftcorp.atlas.ui.selection.SelectionUtil;
 import com.ensoftcorp.atlas.ui.selection.event.IAtlasSelectionEvent;
@@ -38,8 +38,8 @@ public class MetricsView extends ViewPart {
 		// intentionally left blank
 	}
 	
-	// the Atlas Q selection
-	private GraphElement packageSelection = null;
+	// the current Atlas package selection
+	private Node packageSelection = null;
 	
 	private String doubleToString(double d){
 		DecimalFormat df = new DecimalFormat("#.##");
@@ -48,7 +48,7 @@ public class MetricsView extends ViewPart {
 	
 	private String getPackageSelectionName(){
 		if(packageSelection != null){
-			return packageSelection.attr().get(Node.NAME).toString();
+			return packageSelection.attr().get(XCSG.name).toString();
 		} else {
 			return "No package selected...";
 		}
@@ -141,7 +141,7 @@ public class MetricsView extends ViewPart {
 			public void selectionChanged(IAtlasSelectionEvent atlasSelection) {
 				try {
 					// grab the first package node out of the set if there are multiple selections
-					AtlasSet<GraphElement> selectedPackages = Metrics.getPackages(atlasSelection.getSelection()).eval().nodes();
+					AtlasSet<Node> selectedPackages = Metrics.getPackages(atlasSelection.getSelection()).eval().nodes();
 					if(selectedPackages.size() > 0){
 						packageSelection = selectedPackages.getFirst();
 					} else {
