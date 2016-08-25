@@ -13,7 +13,9 @@ public class Metrics {
 
 	/**
 	 * Return a the number of nodes in the given graph
-	 * @param graph A subgraph of the universe
+	 * 
+	 * @param graph
+	 *            A subgraph of the universe
 	 * @return
 	 */
 	public static long countNodes(Q graph){
@@ -22,7 +24,9 @@ public class Metrics {
 	
 	/**
 	 * Return a Q of only nodes that are packages in the given graph
-	 * @param graph A subgraph of the universe
+	 * 
+	 * @param graph
+	 *            A subgraph of the universe
 	 * @return
 	 */
 	public static Q getPackages(Q graph){
@@ -31,6 +35,7 @@ public class Metrics {
 	
 	/**
 	 * Returns the packages of a set of program elements
+	 * 
 	 * @param programElements
 	 * @return
 	 */
@@ -42,18 +47,24 @@ public class Metrics {
 	}
 	
 	/**
-	 * Return a Q of only nodes that are types (classes, abstract classes, and interfaces) in the given graph
-	 * @param graph A subgraph of the universe
+	 * Return a Q of only nodes that are types (classes, abstract classes, and
+	 * interfaces) in the given graph
+	 * 
+	 * @param graph
+	 *            A subgraph of the universe
 	 * @return
 	 */
 	public static Q getTypes(Q graph){
-		return graph.nodesTaggedWithAll(XCSG.Type);
+		// a subset of XCSG.Type that excludes array types, primitives, null, etc.
+		return graph.nodesTaggedWithAll(XCSG.Classifier);
 	}
 	
 	/**
-	 * Return a Q of only nodes that are classes in the given graph
-	 * Note that classes may be abstract or concrete, do not include interfaces
-	 * @param graph A subgraph of the universe
+	 * Return a Q of only nodes that are classes in the given graph Note that
+	 * classes may be abstract or concrete, do not include interfaces
+	 * 
+	 * @param graph
+	 *            A subgraph of the universe
 	 * @return
 	 */
 	public static Q getClasses(Q graph){
@@ -63,7 +74,9 @@ public class Metrics {
 	
 	/**
 	 * Return a Q of only nodes that are interfaces in the given graph
-	 * @param graph A subgraph of the universe
+	 * 
+	 * @param graph
+	 *            A subgraph of the universe
 	 * @return
 	 */
 	public static Q getInterfaces(Q graph){
@@ -72,9 +85,12 @@ public class Metrics {
 	}
 	
 	/**
-	 * Return a Q of only nodes that are classes that are abstract in the given graph
-	 * Note: Include interfaces since they are technically abstract classes
-	 * @param graph A subgraph of the universe
+	 * Return a Q of only nodes that are classes that are abstract in the given
+	 * graph Note: Include interfaces since they are technically abstract
+	 * classes
+	 * 
+	 * @param graph
+	 *            A subgraph of the universe
 	 * @return
 	 */
 	public static Q getAbstractClasses(Q graph){
@@ -83,8 +99,11 @@ public class Metrics {
 	}
 	
 	/**
-	 * Return a Q of only the concrete classes (all classes that are not interfaces or abstract classes) in the given graph
-	 * @param graph A subgraph of the universe
+	 * Return a Q of only the concrete classes (all classes that are not
+	 * interfaces or abstract classes) in the given graph
+	 * 
+	 * @param graph
+	 *            A subgraph of the universe
 	 * @return
 	 */
 	public static Q getConcreteClasses(Q graph) {
@@ -94,7 +113,9 @@ public class Metrics {
 	
 	/**
 	 * Return a Q of only nodes that are methods in the given graph
-	 * @param graph A subgraph of the universe
+	 * 
+	 * @param graph
+	 *            A subgraph of the universe
 	 * @return
 	 */
 	public static Q getMethods(Q graph){
@@ -103,8 +124,11 @@ public class Metrics {
 	}
 	
 	/**
-	 * Returns the methods declared under a given package.  Includes methods in inner classes (classes declared within classes).
-	 * @param pkg A single package node
+	 * Returns the methods declared under a given package. Includes methods in
+	 * inner classes (classes declared within classes).
+	 * 
+	 * @param pkg
+	 *            A single package node
 	 * @return
 	 */
 	public static Q getPackageMethods(Node pkg){
@@ -116,8 +140,12 @@ public class Metrics {
 	}
 	
 	/**
-	 * Returns the classes and interfaces declared under a given package.  Includes inner classes and interfaces (classes/interfaces declared within classes).
-	 * @param pkg A single package node
+	 * Returns the classes and interfaces declared under a given package.
+	 * Includes inner classes and interfaces (classes/interfaces declared within
+	 * classes).
+	 * 
+	 * @param pkg
+	 *            A single package node
 	 * @return
 	 */
 	public static Q getPackageTypes(Node pkg){
@@ -129,8 +157,11 @@ public class Metrics {
 	}
 
 	/**
-	 * Calculates the ratio of the number of abstract classes (and interfaces) in the package to the total number of types in the package
-	 * @param pkg A single package node
+	 * Calculates the ratio of the number of abstract classes (and interfaces)
+	 * in the package to the total number of types in the package
+	 * 
+	 * @param pkg
+	 *            A single package node
 	 */
 	public static double getAbstractness(Node pkg) throws ArithmeticException {
 		// Step 1) Get the types declared under the package
@@ -142,9 +173,12 @@ public class Metrics {
 	}
 	
 	/**
-	 * Returns the packages classes outside the given package that depend upon classes inside the package
-	 * A dependency is that a package class makes calls to a class in another package
-	 * @param pkg A single package node
+	 * Returns the packages classes outside the given package that depend upon
+	 * classes inside the package A dependency is that a package class makes
+	 * calls to a class in another package
+	 * 
+	 * @param pkg
+	 *            A single package node
 	 * @return
 	 */
 	public static Q getDependentPackages(Node pkg){
@@ -157,9 +191,12 @@ public class Metrics {
 	}
 	
 	/**
-	 * Returns the packages of classes outside the given package that classes inside the package depend upon
-	 * A dependency is that a package class makes calls to a class in another package
-	 * @param pkg A single package node
+	 * Returns the packages of classes outside the given package that classes
+	 * inside the package depend upon A dependency is that a package class makes
+	 * calls to a class in another package
+	 * 
+	 * @param pkg
+	 *            A single package node
 	 * @return
 	 */
 	public static Q getPackageDependencies(Node pkg){
@@ -172,9 +209,12 @@ public class Metrics {
 	}
 
 	/**
-	 * Calculates the afferent coupling (Ca): The classes outside the package that depend upon classes inside the package.
-	 * A dependency is that a package class makes calls to a class in another package
-	 * @param pkg A single package node
+	 * Calculates the afferent coupling (Ca): The classes outside the package
+	 * that depend upon classes inside the package. A dependency is that a
+	 * package class makes calls to a class in another package.
+	 * 
+	 * @param pkg
+	 *            A single package node
 	 * @return
 	 */
 	public static Q getAfferentCouplings(Node pkg) {
@@ -183,9 +223,12 @@ public class Metrics {
 	}
 
 	/**
-	 * Calculates the efferent coupling (Ce): The classes outside the package that classes inside the package depend upon.
-	 * A dependency is that a package class makes calls to a class in another package
-	 * @param pkg A single package node
+	 * Calculates the efferent coupling (Ce): The classes outside the package
+	 * that classes inside the package depend upon. A dependency is that a
+	 * package class makes calls to a class in another package
+	 * 
+	 * @param pkg
+	 *            A single package node
 	 * @return
 	 */
 	public static Q getEfferentCouplings(Node pkg) {
@@ -194,13 +237,32 @@ public class Metrics {
 	}
 
 	/**
-	 * Calculates the instability Ce/(Ca+Ce).  Range [0,1] where 0 is very stable and 1 is very unstable.
-	 * @param pkg A single package node
+	 * Calculates the instability Ce/(Ca+Ce). Range [0,1] where 0 is very stable
+	 * and 1 is very unstable.
+	 * 
+	 * @param pkg
+	 *            A single package node
 	 * @return
 	 */
 	public static double getInstability(Node pkg) {
 		double ce = new Double(countNodes(getEfferentCouplings(pkg)));
 		double ca = new Double(countNodes(getAfferentCouplings(pkg)));
 		return ce / (ca + ce);
+	}
+	
+	/**
+	 * Calculates the distance D=|A+I-1| from the ideal sequence. D has a range
+	 * [0,1] where 0 is directly on the main sequence and 1 is the farthest away
+	 * from the main sequence (towards either the zone of pain or the zone of
+	 * uselessness).
+	 * 
+	 * @param pkg
+	 * @return
+	 */
+	public static double getDistance(Node pkg) {
+		double a = getAbstractness(pkg);
+		double i = getInstability(pkg);
+		// TODO: Implement
+		throw new RuntimeException("Not Implemented!");
 	}
 }
